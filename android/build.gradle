@@ -4,7 +4,7 @@ group 'me.tossy.flutter.unique_ids'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.3.41'
+    ext.kotlin_version = '1.4.10'
     repositories {
         google()
         jcenter()
