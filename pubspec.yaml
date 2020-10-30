@@ -1,7 +1,6 @@
 name: unique_ids
 description: can create uuid and can get adid/idfa for mobile app(android/ios)
 version: 1.0.11
-author: Daewook. Kwon <tossy@tossy.me>
 homepage: https://github.com/team-tossy/unique_ids
 
 environment:
@@ -17,5 +16,9 @@ dev_dependencies:
 
 flutter:
   plugin:
-    androidPackage: me.tossy.flutter.unique_ids
-    pluginClass: UniqueIdsPlugin
+    platforms:
+      android:
+        package: me.tossy.flutter.unique_ids
+        pluginClass: UniqueIdsPlugin
+      ios:
+        pluginClass: UniqueIdsPlugin
