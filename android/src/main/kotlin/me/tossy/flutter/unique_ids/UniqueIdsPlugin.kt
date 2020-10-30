@@ -1,7 +1,6 @@
 package me.tossy.flutter.unique_ids
 
 import android.content.Context
-import android.os.AsyncTask
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import com.google.android.gms.ads.identifier.AdvertisingIdClient.Info
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
@@ -12,6 +11,7 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import java.io.IOException
 import java.util.*
+import android.os.*
 
 class UniqueIdsPlugin(private val registrar: Registrar) : MethodCallHandler {
 
@@ -24,39 +24,43 @@ class UniqueIdsPlugin(private val registrar: Registrar) : MethodCallHandler {
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
-
         when {
             call.method == "adId" -> {
-                AdIdTask(result).execute(registrar.context())
+                val backgroundThread = object : Thread("adId") {
+                    override fun run() {
+                        var id: String = "";
+
+                        try {
+                            id = getAdId()
+                        } catch (e: IOException) {
+                            // Unrecoverable error connecting to Google Play services (e.g.,
+                            // the old version of the service doesn't support getting AdvertisingId).
+                        } catch (e: GooglePlayServicesNotAvailableException) {
+                            // Google Play services is not available entirely.
+                        }
+                        success(result, id)
+                    }
+                }
+                backgroundThread.start()
             }
+
             call.method == "uuid" -> result.success(UUID.randomUUID().toString())
             else -> result.notImplemented()
         }
     }
-}
 
-private class AdIdTask(private val result: Result) : AsyncTask<Context, Void, String>() {
-    override fun doInBackground(vararg params: Context?): String? {
-        var adInfo: Info? = null
-        try {
-            adInfo = AdvertisingIdClient.getAdvertisingIdInfo(params[0])
-        } catch (e: IOException) {
-            // Unrecoverable error connecting to Google Play services (e.g.,
-            // the old version of the service doesn't support getting AdvertisingId).
-        } catch (e: GooglePlayServicesNotAvailableException) {
-            // Google Play services is not available entirely.
-        }
-
-        var id = ""
-        adInfo?.let {
-            id = adInfo.id
-        }
-
-        return id
+    fun getAdId(): String {
+        val adInfo = AdvertisingIdClient.getAdvertisingIdInfo(registrar.context())
+        val isLimitAdTrackingEnabled = adInfo.isLimitAdTrackingEnabled
+        // if (isLimitAdTrackingEnabled) {
+        return adInfo.id
+        // }
+        return ""
     }
 
-    override fun onPostExecute(id: String?) {
-        super.onPostExecute(id)
-        result.success(id)
+    fun success(result: Result, id: String) {
+        Handler(Looper.getMainLooper()).post {
+            result.success(id)
+        }
     }
 }
