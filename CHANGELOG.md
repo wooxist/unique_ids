@@ -1,3 +1,6 @@
+## 1.0.11
+remove AsyncTask in android and update android
+
 ## 1.0.10
 fix ios build error for object-c
 
