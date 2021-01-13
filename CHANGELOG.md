@@ -1,3 +1,6 @@
+## 1.0.12
+change support ios version
+
 ## 1.0.11
 remove AsyncTask in android and update android
 
