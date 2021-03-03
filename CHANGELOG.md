@@ -1,3 +1,6 @@
+## 1.1.0
+Update android build env.
+
 ## 1.0.12
 change support ios version
 
