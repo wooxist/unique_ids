@@ -1,11 +1,10 @@
 name: unique_ids
 description: can create uuid and can get adid/idfa for mobile app(android/ios)
-version: 1.1.0
+version: 1.1.1
 homepage: https://github.com/team-tossy/unique_ids
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.20.0"
 
 dependencies:
   flutter:

@@ -1,3 +1,5 @@
+library unique_ids;
+
 import 'dart:async';
 
 import 'package:flutter/services.dart';

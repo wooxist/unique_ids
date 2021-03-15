@@ -1,3 +1,8 @@
+
+
+## 1.1.1
+minor changes 
+
 ## 1.1.0
 Update android build env.
 
