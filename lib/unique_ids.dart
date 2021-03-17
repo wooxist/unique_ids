@@ -12,14 +12,14 @@ class UniqueIds {
   static const MethodChannel _channel = const MethodChannel('unique_ids');
 
   /// get adId from platform.
-  static Future<String> get adId async {
-    final String _adId = await _channel.invokeMethod('adId');
+  static Future<String?> get adId async {
+    final String? _adId = await _channel.invokeMethod('adId');
     return _adId;
   }
 
   /// create uuid.
-  static Future<String> get uuid async {
-    final String _uuid = await _channel.invokeMethod('uuid');
+  static Future<String?> get uuid async {
+    final String? _uuid = await _channel.invokeMethod('uuid');
     return _uuid;
   }
 }

@@ -1,8 +1,6 @@
-
-
-import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:unique_ids/unique_ids.dart';
 
@@ -24,8 +22,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _init() async {
-    String adId;
-    String uuid;
+    String? adId;
+    String? uuid;
 
     try {
       uuid = await UniqueIds.uuid;
@@ -42,8 +40,8 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _adId = adId;
-      _uuid = uuid;
+      _adId = adId ?? "unknown";
+      _uuid = uuid ?? "unknown";
     });
   }
 
@@ -56,11 +54,11 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Center(
             child: Column(
-              children: [
-                Text('Running on adId: $_adId\n'),
-                Text('created uuid: $_uuid'),
-              ],
-            )),
+          children: [
+            Text('Running on adId: $_adId\n'),
+            Text('created uuid: $_uuid'),
+          ],
+        )),
       ),
     );
   }
